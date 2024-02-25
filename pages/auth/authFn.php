@@ -2,6 +2,8 @@
 require_once '../../config/dbconn.php';
 require_once '../../classes/Authentication.php';
 require_once '../../repositories/UserRepository.php';
+require_once '../../classes/Session.php';
+require_once '../../classes/User.php';
 
 $userRepository = new UserRepository($ConnStrx);
 $authentication = new Authentication($userRepository, new Session());
@@ -45,20 +47,20 @@ if (isset($_POST['signup']))
 }
 else if (isset($_POST['login'])) {
     
-    $userName = $_POST['userName'];
+    $userName = $_POST['username'];
     $password = $_POST['password'];
 
     if($authentication->login($userName,$password))
     {
-        if ($_SESSION['isAdmin'] == 1 && $_SESSION['isActive'] == 1)
+        // if ($_SESSION['isAdmin'] == 1 && $_SESSION['isActive'] == 1)
+        // {
+        //     header("Location: dashboard.php");
+        //     exit();
+        // }
+        if ($_SESSION['user_isActive'] == 1)
         {
-            header("Location: dashboard.php");
-            exit();
-        }
-        else if ($_SESSION['isActive'] == 1)
-        {
-            header("Location: index.php?page=home");
-            exit();
+            header("Location: http://localhost/To-do/index.php?page=home");
+            exit;
         }
         else
         {
@@ -94,7 +96,7 @@ else if (isset($_POST['login'])) {
     else
     {
         echo '<script>alert("Incorrect username or password. Please try again.");';
-        echo 'window.location.href = "logon.php";</script>';
+        echo 'window.location.href = "LoginPage.php";</script>';
     }
 }
 else 

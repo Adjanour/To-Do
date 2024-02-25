@@ -1,7 +1,6 @@
 <?php
-// index.php
 global  $ConnStrx;
-require_once '../utils/functions.php';
+require_once 'C:\xampp\htdocs\To-Do\utils\functions.php';
 
 $dbHost = config('config', 'db_host');
 $dbUsername = config('config', 'db_user');

@@ -12,12 +12,16 @@ class Authentication {
     public function login($username, $password) {
         
         $user = $this->userRepository->getUserByUsername($username);
+        echo '<script> console.log('.var_dump($user).')</script>';
+        echo '<script> console.log('.password_verify($password, $user['usrPassword']).')</script>';
 
-        if ($user && password_verify($password, $user['password'])) {
+        if ($user && password_verify($password, $user['usrPassword'])) {
+            $this->userRepository->setUserLogedInDate($user['usrIdpk']);
             $this->session->set('user_id', $user['usrIdpk']);
             $this->session->set('user_isActive', $user['usrIsActive']);
             return true;
         }
+
         
         return false;
     }
@@ -36,4 +40,5 @@ class Authentication {
             return new User($user['usrName'],$user['usrFirstName'],$user['usrLastName'],$user['usrOtherName'],$user['usrEmailAddress']);
         }
     }
+
 }

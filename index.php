@@ -29,7 +29,7 @@
         }elseif ($page == 'contacts') {
             include './pages/gen/ContactsPage.php';
         }elseif($page == 'home'){
-            include './pages/auth/LoginPage.php';
+            include './pages/gen/HomePage.php';
         }
         else{
 

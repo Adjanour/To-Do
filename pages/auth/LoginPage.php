@@ -6,20 +6,20 @@
     <title>Login</title>
     <link rel="manifest" href="/manifest.json">
 
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link href="../../css/bootstrap.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
-    <script  src="js/bootstrap.js"></script>
+    <script  src="../../js/bootstrap.js"></script>
 
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
       <div class=" container-md">
                 <a class="navbar-brand" href="about.php">
-                    <img src="./include/favicon_io/favicon-32x32.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+                    <img src="../../config/favicon_io/favicon-32x32.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
                     Salem Server
                 </a>
                 <!-- ... Rest of the navigation code ... -->
@@ -44,11 +44,11 @@
       
     <div class="container">
         <div class="img">
-            <img src="img/undraw_personalization_re_grty (1).svg" alt="logo">
+            <img src="../../img/undraw_personalization_re_grty (1).svg" alt="logo">
         </div>
         <div class="login-container">
             <form action="authFn.php" method="post">
-                <img class="avatar" src="img/boss.png" alt="avatar">
+                <img class="avatar" src="../../img/boss.png" alt="avatar">
                 <h2>Welcome</h2>
                 <div class="input-div one focus">
                     <div class="i">

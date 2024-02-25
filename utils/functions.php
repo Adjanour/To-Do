@@ -1,6 +1,60 @@
 <?php
 
 /**
+ * Custom exception class for when a configuration file is not found.
+ */
+class FileNotFoundException extends Exception
+{
+    /**
+     * FileNotFoundException constructor.
+     *
+     * @param string $message A custom error message indicating the file that was not found.
+     * @param int $code       The error code (optional).
+     * @param Throwable|null $previous The previous throwable used for the exception chaining (optional).
+     */
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+}
+
+/**
+ * Custom exception class for when a specified key is not found in the configuration file.
+ */
+class KeyNotFoundException extends Exception
+{
+    /**
+     * KeyNotFoundException constructor.
+     *
+     * @param string $message A custom error message indicating the key that was not found.
+     * @param int $code       The error code (optional).
+     * @param Throwable|null $previous The previous throwable used for the exception chaining (optional).
+     */
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+}
+
+/**
+ * Custom exception class for when the configuration file does not return a valid array.
+ */
+class InvalidConfigException extends Exception
+{
+    /**
+     * InvalidConfigException constructor.
+     *
+     * @param string $message A custom error message indicating the issue with the configuration file.
+     * @param int $code       The error code (optional).
+     * @param Throwable|null $previous The previous throwable used for the exception chaining (optional).
+     */
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+}
+
+/**
  * Retrieves a configuration value from the specified configuration file.
  *
  * @param string $configFileName The name of the configuration file.
@@ -14,7 +68,7 @@ function config(string $configFileName, string $key): mixed
     $safePath = get_secure_config_file_path($configFileName);
 
     if (!file_exists($safePath)) {
-        error_log("Configuration file '$configFileName' not found at path '$safePath'.",LOG_ERR,"./sysLogs.log");
+        error_log("Configuration file '$configFileName' not found at path '$safePath'.",LOG_ERR,"C:/xampp/htdocs/To-Do/sysLogs.log");
         throw new FileNotFoundException("Configuration file '$configFileName' not found at path '$safePath'.");
     }
 
@@ -43,7 +97,7 @@ function get_secure_config_file_path(string $configFileName): string
 {
     // sanitize file name and build secure path
     $safeFileName = preg_replace('/[^a-zA-Z0-9_\.-]/', '', $configFileName);
-    return "./config/{$safeFileName}.php";
+    return "c:/xampp/htdocs/To-Do/config/{$safeFileName}.php";
 }
 
 

@@ -1,5 +1,7 @@
 <?php
 
+
+
 class UserRepository
 {
     protected $connection;
@@ -11,7 +13,7 @@ class UserRepository
 
     public function getUserByUsername($username)
     {
-        $query = "SELECT * FROM tblUsers WHERE username = ?";
+        $query = "SELECT * FROM tblUsers WHERE usrName = ?";
         $statement = $this->connection->prepare($query);
         $statement->bind_param('s', $username);
         $statement->execute();
@@ -19,18 +21,23 @@ class UserRepository
         return $result->fetch_assoc();
     }
     public function getUserById($id){
+        try{
         $query = "SELECT * FROM tblUsers WHERE usrIdpk = ?";
         $statement = $this->connection->prepare($query);
         $statement->bind_param('s', $id);
         $statement->execute();
         $result = $statement->get_result();
         return $result->fetch_assoc();
+        }catch (Exception $e){
+            echo $e;
+        }
     }
 
     public function addUser(User $user, $password){
+        $hased_password = password_hash($password,PASSWORD_DEFAULT);
         $query = "INSERT INTO tblUsers (usrName, usrFirstName, usrLastName, usrOtherName, usrEmailAddress, usrPassword) VALUES (?, ?, ?, ?, ?, ?)";
         $statement = $this->connection->prepare($query);
-        $statement->bind_param('ssssss', $user->getUsername(), $user->getFirstName(), $user->getLastName(), $user->getOtherName(), $user->getEmail(), $password);
+        $statement->bind_param('ssssss', $user->getUsername(), $user->getFirstName(), $user->getLastName(), $user->getOtherName(), $user->getEmail(), $hased_password);
         $statement->execute();
         return $statement->insert_id;
     }
@@ -40,5 +47,10 @@ class UserRepository
 
     public function verifyPassword($password) {
         
+    }
+
+    public function setUserLogedInDate($userId) {
+        $currentDateTime = date('d/m/Y H:i:s');
+        $query = "UPDATE tblUsers SET usrLastLoginDate='$currentDateTime' WHERE usrIdpk = ?";
     }
 }
