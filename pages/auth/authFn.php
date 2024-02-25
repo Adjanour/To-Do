@@ -1,5 +1,5 @@
 <?php   
-require_once("../../config/dbconn.php");
+require_once '../../config/dbconn.php';
 require_once '../../classes/Authentication.php';
 require_once '../../repositories/UserRepository.php';
 

@@ -1,7 +1,7 @@
 <?php
 // index.php
 global  $ConnStrx;
-require_once("utils/functions.php"); // Include the file containing the config() function
+require_once '../utils/functions.php';
 
 $dbHost = config('config', 'db_host');
 $dbUsername = config('config', 'db_user');
