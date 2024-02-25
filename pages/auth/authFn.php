@@ -1,14 +1,19 @@
 <?php   
 session_start();
+require_once '../../utils/functions.php';
 require_once '../../config/dbconn.php';
-require_once '../../classes/Authentication.php';
-require_once '../../repositories/UserRepository.php';
 require_once '../../classes/Session.php';
 require_once '../../classes/User.php';
+require_once '../../repositories/UserRepository.php';
+require_once '../../classes/Authentication.php';
+
 
 $userRepository = new UserRepository($ConnStrx);
 $authentication = new Authentication($userRepository, new Session());
 $authentication->startSession();
+
+if ($_SERVER["REQUEST_METHOD"]=== "POST"){
+
 
 if (isset($_POST['signup']))
 {
@@ -115,6 +120,11 @@ else if (isset($_POST['login'])) {
 else 
 {
     header("location:index.html");
+}
+}
+else{
+    echo '<script>alert("Only post request allowed");';
+    echo 'window.location.href = "LoginPage.php";</script>';
 }
 
 ?>

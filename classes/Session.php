@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class Session {
     public function start() {
@@ -11,6 +12,7 @@ class Session {
     }
 
     public function get($key) {
+        session_start();
         return $_SESSION[$key] ?? null;
     }
 
