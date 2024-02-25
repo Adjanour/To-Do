@@ -1,4 +1,5 @@
 <?php   
+session_start();
 require_once '../../config/dbconn.php';
 require_once '../../classes/Authentication.php';
 require_once '../../repositories/UserRepository.php';
@@ -7,6 +8,7 @@ require_once '../../classes/User.php';
 
 $userRepository = new UserRepository($ConnStrx);
 $authentication = new Authentication($userRepository, new Session());
+$authentication->startSession();
 
 if (isset($_POST['signup']))
 {
@@ -24,7 +26,6 @@ if (isset($_POST['signup']))
     }
     
     
-
     if($authentication->login($userName, $password))
     {
         echo "User already exist";
@@ -51,14 +52,26 @@ else if (isset($_POST['login'])) {
     $password = $_POST['password'];
 
     if($authentication->login($userName,$password))
-    {
-        // if ($_SESSION['isAdmin'] == 1 && $_SESSION['isActive'] == 1)
-        // {
-        //     header("Location: dashboard.php");
-        //     exit();
-        // }
+    {   
+        session_start();
+        $_SESSION['user_id'] = $authentication->getUserId();
+        echo $_SESSION['user_id'];
+        echo '<script>console.log("'.$_SESSION['user_id'].'")</script>';
+        echo $authentication->getUserId();
+
         if ($_SESSION['user_isActive'] == 1)
         {
+            
+            if (isset($_SESSION['user']) && isset($_SESSION['auth'])) {
+            
+            $user = unserialize($_SESSION['user']);
+            $auth = unserialize($_SESSION['auth']);
+            } else {
+                $user = $authentication->getUser();
+                $_SESSION['user'] = serialize($user);
+                $_SESSION['auth'] = serialize($authentication);
+            }
+
             header("Location: http://localhost/To-do/index.php?page=home");
             exit;
         }

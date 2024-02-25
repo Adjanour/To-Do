@@ -4,18 +4,23 @@ class Authentication {
     private $session;
     private $userRepository;
 
+
     public function __construct(UserRepository $userRepository, Session $session) {
         $this->userRepository = $userRepository;
         $this->session = $session;
+        
+    }
+
+    public function startSession() {
+        return $this->session->start();
     }
 
     public function login($username, $password) {
         
         $user = $this->userRepository->getUserByUsername($username);
-        echo '<script> console.log('.var_dump($user).')</script>';
-        echo '<script> console.log('.password_verify($password, $user['usrPassword']).')</script>';
-
+    
         if ($user && password_verify($password, $user['usrPassword'])) {
+            $_SESSION['user'] = $user['usrIdpk'];
             $this->userRepository->setUserLogedInDate($user['usrIdpk']);
             $this->session->set('user_id', $user['usrIdpk']);
             $this->session->set('user_isActive', $user['usrIsActive']);
@@ -39,6 +44,10 @@ class Authentication {
             $user =  $this->userRepository->getUserById($this->session->get('user_id'));
             return new User($user['usrName'],$user['usrFirstName'],$user['usrLastName'],$user['usrOtherName'],$user['usrEmailAddress']);
         }
+    }
+
+    public function getUserId(){
+        return $this->session->get('user_id');
     }
 
 }

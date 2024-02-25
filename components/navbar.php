@@ -1,6 +1,6 @@
 <nav class="navbar">
         <div style="margin: 0 0.5rem">
-            <h1>Navbar</h1>
+            <h1><?php echo $user->userName ?></h1>
         </div>
         <div style="display: flex;align-items:center;width:fit-content;align-self:center;height:fit-content;padding-right:1rem;">
             <div style="width: fit-content;height:fit-content;display:flex;margin:0 10;">

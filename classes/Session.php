@@ -6,6 +6,7 @@ class Session {
     }
 
     public function set($key, $value) {
+        session_start();
         $_SESSION[$key] = $value;
     }
 

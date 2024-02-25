@@ -50,7 +50,10 @@ class UserRepository
     }
 
     public function setUserLogedInDate($userId) {
-        $currentDateTime = date('d/m/Y H:i:s');
+        $currentDateTime = date('Y-m-d H:i:s');
         $query = "UPDATE tblUsers SET usrLastLoginDate='$currentDateTime' WHERE usrIdpk = ?";
+        $statement = $this->connection->prepare($query);
+        $statement->bind_param('i', $userId);
+        $statement->execute();
     }
 }

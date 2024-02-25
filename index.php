@@ -1,9 +1,8 @@
 <?php
-if (!isset($_SESSION['user_id'])) {
-    // If the user is logged in, redirect to the home page
-    header('Location: login.php');
-    exit();
-}
+
+    $user = unserialize($_SESSION['user']);
+    $auth = unserialize($_SESSION['auth']);
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
