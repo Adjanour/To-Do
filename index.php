@@ -1,9 +1,9 @@
 <?php
-// if (!isset($_SESSION['user_id'])) {
-//     // If the user is logged in, redirect to the home page
-//     header('Location: login.php');
-//     exit();
-// }
+if (!isset($_SESSION['user_id'])) {
+    // If the user is logged in, redirect to the home page
+    header('Location: login.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
