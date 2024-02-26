@@ -4,7 +4,7 @@
 
 class UserRepository
 {
-    protected $connection;
+    private $connection;
 
     public function __construct(mysqli $connection)
     {
