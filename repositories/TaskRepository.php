@@ -8,7 +8,7 @@ class TaskRepository {
     }
     
     public function addTask($task) {
-        $query = "INSERT INTO tbltasks (tskName, tskDescription, tskDueDate, tskStatus, tskPriority, taskCategory, taskUserId) VALUES (:taskName, :taskDescription, :taskDueDate, :taskStatus, :taskPriority, :taskCategory, :taskUserId)";
+        $query = "INSERT INTO tbltasks (tskName, tskDescription, tskEndDate, tskStaIdfk, tskPriorityIdfk) VALUES (:taskName, :taskDescription, :taskDueDate, :taskStatus, :taskPriority, :taskCategory, :taskUserId)";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(':taskName', $task->getTaskName());
         $statement->bindValue(':taskDescription', $task->getTaskDescription());
@@ -22,7 +22,7 @@ class TaskRepository {
     }
     
     public function getTasks($userId) {
-        $query = "SELECT * FROM task WHERE taskUserId = :userId";
+        $query = "SELECT * FROM tbltasks WHERE tskIdpk = :userId";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(':userId', $userId);
         $statement->execute();
@@ -32,7 +32,7 @@ class TaskRepository {
     }
     
     public function getTask($taskId) {
-        $query = "SELECT * FROM task WHERE taskId = :taskId";
+        $query = "SELECT * FROM tbltasks WHERE tskIdpk = :taskId";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(':taskId', $taskId);
         $statement->execute();
@@ -44,14 +44,14 @@ class TaskRepository {
     
     
     public function updateTask($task) {
-        $query = "UPDATE task SET taskName = :taskName, taskDescription = :taskDescription, taskDueDate = :taskDueDate, taskStatus = :taskStatus, taskPriority = :taskPriority, taskCategory = :taskCategory WHERE taskId = :taskId";
+        $query = "UPDATE tbltasks SET taskName = :taskName, taskDescription = :taskDescription, taskDueDate = :taskDueDate, taskStatus = :taskStatus, taskPriority = :taskPriority, taskCategory = :taskCategory WHERE taskId = :taskId";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(':taskName', $task->getTaskName());
         $statement->bindValue(':taskDescription', $task->getTaskDescription());
     }
 
     public function completeTask($taskId) {
-        $query = "UPDATE task SET taskStatus = 'Complete' WHERE taskId = :taskId";
+        $query = "UPDATE tbltasks SET taskStatus = 'Complete' WHERE taskId = :taskId";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(':taskId', $taskId);
         $statement->execute();
@@ -59,7 +59,7 @@ class TaskRepository {
     }
 
     public function changeTaskstatus($taskId, $status) {
-        $query = "UPDATE task SET taskStatus = :status WHERE taskId = :taskId";
+        $query = "UPDATE tbltasks SET taskStatus = :status WHERE taskId = :taskId";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(':status', $status);
         $statement->bindValue(':taskId', $taskId);
@@ -68,7 +68,7 @@ class TaskRepository {
     }   
 
     public function deleteTask($taskId) {
-        $query = "DELETE FROM task WHERE taskId = :taskId";
+        $query = "DELETE FROM tbltasks WHERE taskId = :taskId";
         $statement = $this->connection->prepare($query);
         $statement->bindValue(':taskId', $taskId);
         $statement->execute();
@@ -85,7 +85,7 @@ class TaskRepository {
     }
 
     public function getTaskPriorities() {
-        $query = "SELECT * FROM tbltaskPriorities";
+        $query = "SELECT * FROM tblpriorities";
         $statement = $this->connection->prepare($query);
         $statement->execute();
         $priorities = $statement->fetchAll();

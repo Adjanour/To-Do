@@ -1,5 +1,9 @@
 <?php
 
+    session_start();
+    if (!isset($_SESSION['user'])){
+        header('location:pages/auth/LoginPage.php');
+    }
     $user = unserialize($_SESSION['user']);
     $auth = unserialize($_SESSION['auth']);
     

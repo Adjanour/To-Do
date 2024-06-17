@@ -23,12 +23,12 @@ class TaskAssignmentRepository
                     tka.tkaProgress AS task_progress,
                     tka.tkaRemarks AS task_remarks
                 FROM tbltaskassignments tka
-                JOIN tbltask tsk ON tka.tkaTskIdfk = tsk.tskIdpk
+                JOIN tbltasks tsk ON tka.tkaTskIdfk = tsk.tskIdpk
                 JOIN tblUsers usr ON tka.tkaAssigneeUsrIdfk = usr.usrIdpk
                 JOIN tbltaskstatuses tas ON tka.tkaStaIdfk = tas.staIdpk
                 JOIN tblpriorities prt ON tka.tkaPrtIdfk = prt.prtIdpk
                 WHERE tkaIsActive = 1
-                ORDER BY task_name ASC;";
+                ORDER BY task_name;";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
@@ -37,14 +37,21 @@ class TaskAssignmentRepository
         return $result;
     }
 
-    public function getTaskAssignemnts(){
-        $query = 'CALL GetTaskAssignemnts';
+    public function getTaskAssignments(){
+        $query = 'CALL GetTaskAssignments';
         $statement = $this->connection->prepare($query);
         $statement->execute();
-        $taskAssignments = $statement->fetch();
-        $statement->closeCursor();
+        $result = $statement->get_result();
+
+        $taskAssignments = array(); // Initialize an empty array to store the fetched data
+
+        while ($row = $result->fetch_assoc()) {
+            $taskAssignments[] = $row; // Append each fetched row to the array
+        }
+
         return $taskAssignments;
     }
+
 
     public function getTaskAssignemntById($id){
         $query = 'CALL GetTaskAssignemntById(?)';

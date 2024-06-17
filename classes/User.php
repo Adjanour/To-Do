@@ -41,8 +41,12 @@ class User {
         return $this->email;
     }
 
-    public function getFullName(){
-        return trim($this->firstName).trim($this->otherName).trim($this->lastName);
+    public function getFullName()
+    {
+        if(isset($this->otherName)){
+            return trim($this->firstName).trim($this->otherName).trim($this->lastName);
+        }
+        return trim($this->firstName).' '.trim($this->lastName);
     }
 
 

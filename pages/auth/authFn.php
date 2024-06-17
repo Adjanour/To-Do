@@ -1,4 +1,5 @@
-<?php   
+<?php
+
 session_start();
 require_once '../../utils/functions.php';
 require_once '../../config/dbconn.php';
@@ -7,10 +8,11 @@ require_once '../../classes/User.php';
 require_once '../../repositories/UserRepository.php';
 require_once '../../classes/Authentication.php';
 
+global $ConnStrx;
+
 
 $userRepository = new UserRepository($ConnStrx);
 $authentication = new Authentication($userRepository, new Session());
-$authentication->startSession();
 
 if ($_SERVER["REQUEST_METHOD"]=== "POST"){
 
@@ -57,20 +59,15 @@ else if (isset($_POST['login'])) {
     $password = $_POST['password'];
 
     if($authentication->login($userName,$password))
-    {   
-        session_start();
+    {
         $_SESSION['user_id'] = $authentication->getUserId();
-        echo $_SESSION['user_id'];
-        echo '<script>console.log("'.$_SESSION['user_id'].'")</script>';
-        echo $authentication->getUserId();
-
         if ($_SESSION['user_isActive'] == 1)
         {
             
             if (isset($_SESSION['user']) && isset($_SESSION['auth'])) {
-            
-            $user = unserialize($_SESSION['user']);
-            $auth = unserialize($_SESSION['auth']);
+                $user = $authentication->getUser();
+                $_SESSION['user'] = serialize($user);
+                $_SESSION['auth'] = serialize($authentication);
             } else {
                 $user = $authentication->getUser();
                 $_SESSION['user'] = serialize($user);

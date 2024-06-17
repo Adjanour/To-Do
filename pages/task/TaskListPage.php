@@ -1,28 +1,57 @@
-<header>
-        <h1>Welcome to My To-Do App</h1>
-    </header>
+<?php
+// Include necessary files
+global $ConnStrx;
+require_once './utils/functions.php';
+require_once './config/dbconn.php';
+include './repositories/TaskAssignementRepository.php';
 
-    <div class="task-container">
-        <h2 id="title">Your Tasks</h2>
-        <!-- <ul>
-            <?php
-            // Include the database configuration file
-            include '../config/db_conn.php';
+// Create instance of TaskAssignmentRepository
+$taskRepository = new TaskAssignmentRepository($ConnStrx);
 
-            // Get all tasks from the database
-            $query = "SELECT * FROM tasks";
-            $result = mysqli_query($conn, $query);
+// Fetch tasks from the repository
+$tasks = $taskRepository->getTaskAssignments();
+?>
 
-            // Check if there are any tasks
-            if (mysqli_num_rows($result) > 0) {
-                // Loop through the tasks and display them
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<li>" . $row['task_name'] . "</li>";
-                }
-            } else {
-                echo "<li>No tasks found</li>";
-            }
-            ?> -->
-        <!-- Add a button to add new tasks -->
-        <button onclick="location.href='add_task.php';">Add New Task</button>
+    <div class="container">
+        <h1>Task Manager</h1>
+
+        <!-- Task List -->
+        <table>
+            <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Assignee</th>
+                <th>Assigner</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+            </thead>
+            <tbody>
+<?php
+// Check if tasks exist
+if ($tasks) {
+    // Display tasks
+    foreach ($tasks as $task) {
+        echo "<tr>";
+        echo "<td>" . $task['taskName'] . "</td>";
+        echo "<td>" . $task['taskAssigneeFirstName'] . " " . $task['taskAssigneeLastName'] . "</td>";
+        echo "<td>" . $task['taskAssignerFirstName'] . " " . $task['taskAssignerLastName'] . "</td>";
+        echo "<td>" . $task['taskStatus'] . "</td>";
+        echo "<td>" . $task['taskPriority'] . "</td>";
+        echo "<td>" . $task['taskStartDate'] . "</td>";
+        echo "<td>" . $task['taskEndDate'] . "</td>";
+        echo "</tr>";
+    }
+} else {
+    echo "<tr><td colspan='7'>No tasks found</td></tr>";
+}
+?>
+            </tbody>
+        </table>
+
+
+        <button class="add-task-btn" onclick="location.href='add_task.php';">Add New Task</button>
     </div>
+
